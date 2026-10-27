@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RemoteLink</string>
+    <string name="acc_desc">تسمح هذه الخدمة لجهازك الآخر المقترن بتنفيذ اللمس والكتابة والأزرار على هذا الجهاز عند تفعيل المشاركة.</string>
+</resources>
