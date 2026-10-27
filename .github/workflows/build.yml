@@ -1,0 +1,30 @@
+name: Build APK
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Arrange files
+        run: |
+          mkdir -p app/src/main/java/com/remotelink app/src/main/res/values app/src/main/res/xml
+          mv app-build.gradle.kts app/build.gradle.kts
+          mv AndroidManifest.xml app/src/main/
+          mv *.kt app/src/main/java/com/remotelink/
+          mv strings.xml themes.xml app/src/main/res/values/
+          mv accessibility_config.xml app/src/main/res/xml/
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: "8.5"
+      - run: gradle assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RemoteLink-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
